@@ -29,3 +29,10 @@ export const MESSENGER = {
   handle: '61593157712865',
   ctaLabel: 'Send us a Message',
 } as const
+
+/** Public profile page, for the "follow us" link in the footer. */
+export const FACEBOOK_PROFILE_URL = `https://www.facebook.com/profile.php?id=${MESSENGER.handle}`
+
+/** One-line description of the shop, used in the footer. */
+export const BRAND_TAGLINE =
+  'Digital teaching resources made for Philippine classrooms — editable, print-ready, and yours for the whole school year.'

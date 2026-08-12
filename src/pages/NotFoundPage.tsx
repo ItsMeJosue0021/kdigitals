@@ -21,7 +21,7 @@ export function NotFoundPage() {
 
       <Link
         to={ROUTES.home}
-        className="border-line hover:border-brand hover:text-brand mt-8 inline-flex rounded-lg border bg-white px-5 py-3 text-[0.9375rem] font-medium transition-colors"
+        className="border-line hover:border-brand hover:text-brand mt-8 inline-flex rounded-full border bg-white px-5 py-3 text-[0.9375rem] font-medium transition-colors"
       >
         Browse all products
       </Link>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/Button'
 import { Logo } from '@/components/ui/Logo'
 import { CloseIcon, MenuIcon, MessengerIcon } from '@/components/ui/icons'
@@ -15,85 +15,102 @@ const CTA_LINK_PROPS = { target: '_blank', rel: 'noopener noreferrer' } as const
 
 export function Header() {
   const [isMenuRequested, setIsMenuRequested] = useState(false)
-  const menuId = useId()
+  const dialogRef = useRef<HTMLDialogElement>(null)
   const isDesktop = useMediaQuery(DESKTOP_QUERY)
   const messengerHref = useMessengerLink(MESSENGER.handle)
 
-  // Derived rather than stored, so resizing up to `lg` closes the panel
+  // Derived rather than stored, so resizing up to `lg` closes the menu
   // (and releases the scroll lock) without an extra state sync.
   const isMenuOpen = isMenuRequested && !isDesktop
 
   const closeMenu = useCallback(() => setIsMenuRequested(false), [])
 
-  // Dismiss with Escape and stop the page behind the panel from scrolling.
+  // Drive the native dialog from React state. `showModal` puts it in the top
+  // layer, which brings focus trapping, Escape-to-close, and an inert
+  // background along with it.
+  useEffect(() => {
+    const dialog = dialogRef.current
+    if (!dialog) return
+
+    if (isMenuOpen && !dialog.open) dialog.showModal()
+    else if (!isMenuOpen && dialog.open) dialog.close()
+  }, [isMenuOpen])
+
+  // Stop the page behind the dialog from scrolling.
   useEffect(() => {
     if (!isMenuOpen) return
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') closeMenu()
-    }
-
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
-    document.addEventListener('keydown', handleKeyDown)
 
     return () => {
       document.body.style.overflow = previousOverflow
-      document.removeEventListener('keydown', handleKeyDown)
     }
-  }, [isMenuOpen, closeMenu])
+  }, [isMenuOpen])
 
   return (
-    <header className="border-line/80 bg-parchment/90 sticky top-0 z-50 border-b backdrop-blur-sm">
-      <div className="max-w-page mx-auto flex h-18 items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        <Logo />
+    <>
+      <header className="border-line/80 bg-parchment/90 sticky top-0 z-50 border-b backdrop-blur-sm">
+        <div className="max-w-page mx-auto flex h-18 items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+          <Logo />
 
-        <HeaderNav label="Primary" className="hidden lg:block" />
+          <HeaderNav label="Primary" className="hidden lg:block" />
 
-        <Button
-          href={messengerHref}
-          variant="messenger"
-          className="hidden lg:inline-flex"
-          {...CTA_LINK_PROPS}
-        >
-          <MessengerIcon className="size-5" />
-          {MESSENGER.ctaLabel}
-        </Button>
-
-        <button
-          type="button"
-          className="text-ink hover:bg-ink/5 -mr-2 inline-flex size-10 items-center justify-center rounded-lg transition-colors lg:hidden"
-          aria-expanded={isMenuOpen}
-          aria-controls={menuId}
-          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-          onClick={() => setIsMenuRequested((requested) => !requested)}
-        >
-          {isMenuOpen ? (
-            <CloseIcon className="size-6" />
-          ) : (
-            <MenuIcon className="size-6" />
-          )}
-        </button>
-      </div>
-
-      {isMenuOpen && (
-        <>
-          {/* Rendered before the panel so the panel stays on top of it. */}
-          <div
-            className="bg-ink/25 fixed inset-x-0 top-18 bottom-0 lg:hidden"
-            onClick={closeMenu}
-          />
-
-          <div
-            id={menuId}
-            className="border-line/80 bg-parchment animate-slide-down relative border-b lg:hidden"
+          <Button
+            href={messengerHref}
+            variant="messenger"
+            className="hidden lg:inline-flex"
+            {...CTA_LINK_PROPS}
           >
-            <div className="max-w-page mx-auto flex flex-col gap-4 px-4 py-5 sm:px-6">
-              <HeaderNav
-                orientation="vertical"
-                label="Mobile"
-                onNavigate={closeMenu}
-              />
+            <MessengerIcon className="size-5" />
+            {MESSENGER.ctaLabel}
+          </Button>
+
+          <button
+            type="button"
+            className="text-ink hover:bg-ink/5 -mr-2 inline-flex size-10 cursor-pointer items-center justify-center rounded-lg transition-colors lg:hidden"
+            aria-expanded={isMenuOpen}
+            aria-haspopup="dialog"
+            aria-label="Open menu"
+            onClick={() => setIsMenuRequested(true)}
+          >
+            <MenuIcon className="size-6" />
+          </button>
+        </div>
+      </header>
+
+      {/*
+        Rendered outside <header> on purpose: the header's `backdrop-blur`
+        would otherwise become the containing block for this dialog.
+        `onClose` syncs state back when the browser closes it (Escape).
+      */}
+      <dialog
+        ref={dialogRef}
+        aria-label="Site menu"
+        className="nav-dialog lg:hidden"
+        onClose={closeMenu}
+      >
+        <div className="bg-parchment flex h-full flex-col">
+          <div className="max-w-page mx-auto flex h-18 w-full shrink-0 items-center justify-between gap-4 px-4 sm:px-6">
+            <Logo />
+
+            <button
+              type="button"
+              className="text-ink hover:bg-ink/5 -mr-2 inline-flex size-10 cursor-pointer items-center justify-center rounded-lg transition-colors"
+              aria-label="Close menu"
+              onClick={closeMenu}
+            >
+              <CloseIcon className="size-6" />
+            </button>
+          </div>
+
+          <div className="flex flex-1 flex-col items-center justify-center gap-10 px-6 pb-20">
+            <HeaderNav orientation="vertical" label="Site" onNavigate={closeMenu} />
+
+            <div
+              className="nav-item-in w-full max-w-xs"
+              style={{ animationDelay: '240ms' }}
+            >
               <Button
                 href={messengerHref}
                 variant="messenger"
@@ -106,8 +123,8 @@ export function Header() {
               </Button>
             </div>
           </div>
-        </>
-      )}
-    </header>
+        </div>
+      </dialog>
+    </>
   )
 }

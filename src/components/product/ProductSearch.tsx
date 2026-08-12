@@ -1,5 +1,10 @@
-import { useId } from 'react'
-import { CloseIcon, SearchIcon } from '@/components/ui/icons'
+import { useCallback, useEffect, useId, useRef, useState } from 'react'
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  CloseIcon,
+  SearchIcon,
+} from '@/components/ui/icons'
 import { cn } from '@/lib/cn'
 import { ALL_CATEGORIES, type CategoryFilter } from '@/lib/products'
 import { PRODUCT_CATEGORIES } from '@/types/product'
@@ -19,6 +24,9 @@ const FILTERS: readonly { value: CategoryFilter; label: string }[] = [
   })),
 ]
 
+/** Ignore sub-pixel scroll offsets when deciding if an edge is reached. */
+const SCROLL_EPSILON = 2
+
 export function ProductSearch({
   query,
   onQueryChange,
@@ -26,6 +34,37 @@ export function ProductSearch({
   onCategoryChange,
 }: ProductSearchProps) {
   const inputId = useId()
+  const filterRowRef = useRef<HTMLDivElement>(null)
+  const [overflow, setOverflow] = useState({ start: false, end: false })
+
+  const syncOverflow = useCallback(() => {
+    const row = filterRowRef.current
+    if (!row) return
+
+    const maxScroll = row.scrollWidth - row.clientWidth
+    const start = row.scrollLeft > SCROLL_EPSILON
+    const end = row.scrollLeft < maxScroll - SCROLL_EPSILON
+
+    // Keep the previous object when nothing changed, so scrolling does not
+    // re-render on every frame.
+    setOverflow((previous) =>
+      previous.start === start && previous.end === end
+        ? previous
+        : { start, end },
+    )
+  }, [])
+
+  useEffect(() => {
+    const row = filterRowRef.current
+    if (!row) return
+
+    // ResizeObserver fires once on observe, which seeds the initial state and
+    // keeps it correct across rotation and breakpoint changes.
+    const observer = new ResizeObserver(syncOverflow)
+    observer.observe(row)
+
+    return () => observer.disconnect()
+  }, [syncOverflow])
 
   return (
     <div className="flex flex-col gap-4">
@@ -44,7 +83,7 @@ export function ProductSearch({
             onChange={(event) => onQueryChange(event.target.value)}
             placeholder="Search lesson plans, worksheets, forms…"
             autoComplete="off"
-            className="border-line focus:border-brand placeholder:text-ink-soft/80 w-full rounded-xl border bg-white py-3.5 pr-12 pl-12 text-[0.9375rem] shadow-sm transition-colors outline-none focus:ring-2 focus:ring-brand/20 [&::-webkit-search-cancel-button]:appearance-none"
+            className="border-line focus:border-brand placeholder:text-ink-soft/80 focus:ring-brand/20 w-full rounded-xl border bg-white py-3.5 pr-12 pl-12 text-[0.9375rem] shadow-sm transition-colors outline-none focus:ring-2 [&::-webkit-search-cancel-button]:appearance-none"
           />
 
           {query !== '' && (
@@ -52,7 +91,7 @@ export function ProductSearch({
               type="button"
               onClick={() => onQueryChange('')}
               aria-label="Clear search"
-              className="text-ink-soft hover:bg-ink/5 hover:text-ink absolute top-1/2 right-3 inline-flex size-8 -translate-y-1/2 items-center justify-center rounded-lg transition-colors"
+              className="text-ink-soft hover:bg-ink/5 hover:text-ink absolute top-1/2 right-3 inline-flex size-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-lg transition-colors"
             >
               <CloseIcon className="size-4" />
             </button>
@@ -60,35 +99,71 @@ export function ProductSearch({
         </div>
       </div>
 
-      {/* Below `sm` the chips are one scrollable row that bleeds to the screen
-          edge, so a clipped chip hints there is more to scroll. The negative
-          margin mirrors the page gutter (`px-4`) on the parent section. */}
-      <div
-        role="group"
-        aria-label="Filter by category"
-        className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0"
-      >
-        {FILTERS.map((filter) => {
-          const isActive = filter.value === category
+      {/* The negative margin lives on the wrapper so the scroll hints can sit
+          flush against the screen edges. */}
+      <div className="relative -mx-4 sm:mx-0">
+        <div
+          ref={filterRowRef}
+          role="group"
+          aria-label="Filter by category"
+          onScroll={syncOverflow}
+          className="no-scrollbar flex gap-2 overflow-x-auto px-4 pb-1 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0"
+        >
+          {FILTERS.map((filter) => {
+            const isActive = filter.value === category
 
-          return (
-            <button
-              key={filter.value}
-              type="button"
-              aria-pressed={isActive}
-              onClick={() => onCategoryChange(filter.value)}
-              className={cn(
-                'shrink-0 rounded-full border px-4 py-2 text-sm whitespace-nowrap transition-colors cursor-pointer',
-                isActive
-                  ? 'border-brand bg-brand text-white'
-                  : 'border-line text-ink-soft hover:border-brand/50 bg-white',
-              )}
-            >
-              {filter.label}
-            </button>
-          )
-        })}
+            return (
+              <button
+                key={filter.value}
+                type="button"
+                aria-pressed={isActive}
+                onClick={() => onCategoryChange(filter.value)}
+                className={cn(
+                  'shrink-0 cursor-pointer rounded-full border px-4 py-2 text-sm whitespace-nowrap transition-colors',
+                  isActive
+                    ? 'border-brand bg-brand text-white'
+                    : 'border-line text-ink-soft hover:border-brand/50 bg-white',
+                )}
+              >
+                {filter.label}
+              </button>
+            )
+          })}
+        </div>
+
+        {/* Decorative scroll hints: each fades the row out towards the edge and
+            only appears while there is more to scroll that way. */}
+        <ScrollHint side="start" visible={overflow.start} />
+        <ScrollHint side="end" visible={overflow.end} />
       </div>
+    </div>
+  )
+}
+
+interface ScrollHintProps {
+  side: 'start' | 'end'
+  visible: boolean
+}
+
+function ScrollHint({ side, visible }: ScrollHintProps) {
+  const isStart = side === 'start'
+
+  return (
+    <div
+      aria-hidden="true"
+      className={cn(
+        'from-parchment pointer-events-none absolute inset-y-0 flex w-14 items-center to-transparent transition-opacity duration-200 sm:hidden',
+        isStart
+          ? 'left-0 justify-start bg-linear-to-r pl-1'
+          : 'right-0 justify-end bg-linear-to-l pr-1',
+        visible ? 'opacity-100' : 'opacity-0',
+      )}
+    >
+      {isStart ? (
+        <ChevronLeftIcon className="text-ink-soft size-5" />
+      ) : (
+        <ChevronRightIcon className="text-ink-soft size-5" />
+      )}
     </div>
   )
 }

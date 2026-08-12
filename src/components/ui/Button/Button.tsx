@@ -5,7 +5,7 @@ export type ButtonVariant = 'primary' | 'outline' | 'ghost' | 'messenger'
 export type ButtonSize = 'sm' | 'md'
 
 const BASE_CLASSES =
-  'inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border font-medium leading-none whitespace-nowrap transition-colors active:translate-y-px disabled:pointer-events-none disabled:opacity-55'
+  'inline-flex cursor-pointer items-center justify-center gap-2 rounded-full border font-medium leading-none whitespace-nowrap transition-colors active:translate-y-px disabled:pointer-events-none disabled:opacity-55'
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary: 'border-brand bg-brand text-white hover:border-brand-dark hover:bg-brand-dark',

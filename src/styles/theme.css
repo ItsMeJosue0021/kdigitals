@@ -11,6 +11,9 @@
   --color-brand-dark: #2f6557;
   --color-brand-soft: #88b5b2; /* muted teal */
   --color-accent: #f6ad15; /* sunflower gold */
+  /* Darkened gold for icons and text on a tinted accent background, where
+     #f6ad15 itself is too light to read. */
+  --color-accent-ink: #8a5a00;
   --color-sand: #cebbb4; /* almond silk */
   --color-parchment: #fbf7f4;
 

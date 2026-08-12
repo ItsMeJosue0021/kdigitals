@@ -82,6 +82,51 @@ export function PrinterIcon(props: IconProps) {
   )
 }
 
+export function WalletIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M3 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2" />
+      <path d="M3 8v9a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-2" />
+      <path d="M21 11h-4a2 2 0 0 0 0 4h4a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1z" />
+    </Icon>
+  )
+}
+
+export function BankIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="m3 9 9-5 9 5" />
+      <path d="M5 9v8m4-8v8m6-8v8m4-8v8" />
+      <path d="M3 20h18" />
+    </Icon>
+  )
+}
+
+export function InfoIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 11v5" />
+      <path d="M12 8h.01" />
+    </Icon>
+  )
+}
+
+/** Filled star, for rating rows. */
+export function StarIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+      {...props}
+    >
+      <path d="m12 2.5 2.9 5.9 6.6.9-4.8 4.6 1.2 6.5-5.9-3.1-5.9 3.1 1.2-6.5L2.5 9.3l6.6-.9z" />
+    </svg>
+  )
+}
+
 export function ChevronLeftIcon(props: IconProps) {
   return (
     <Icon {...props}>

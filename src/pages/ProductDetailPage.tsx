@@ -1,10 +1,8 @@
 import { Link, useParams } from 'react-router'
+import { MessengerCallout } from '@/components/common/MessengerCallout'
 import { ProductGallery } from '@/components/product/ProductGallery'
-import { Button } from '@/components/ui/Button'
-import { ArrowLeftIcon, CheckIcon, MessengerIcon } from '@/components/ui/icons'
-import { MESSENGER } from '@/config/site'
+import { ArrowLeftIcon, CheckIcon } from '@/components/ui/icons'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
-import { useMessengerLink } from '@/hooks/useMessengerLink'
 import { formatPrice } from '@/lib/format'
 import { getProductBySlug } from '@/lib/products'
 import { ROUTES } from '@/routes/paths'
@@ -13,7 +11,6 @@ import { NotFoundPage } from './NotFoundPage'
 export function ProductDetailPage() {
   const { slug } = useParams()
   const product = slug ? getProductBySlug(slug) : undefined
-  const messengerHref = useMessengerLink(MESSENGER.handle)
 
   useDocumentTitle(product?.title)
 
@@ -68,27 +65,21 @@ export function ProductDetailPage() {
             ))}
           </ul>
 
-          <div className="border-line/70 mt-10 rounded-2xl border bg-white p-5">
-            <p className="text-ink text-sm font-semibold">
-              Interested in this resource?
-            </p>
-            <p className="text-ink-soft mt-1 text-sm">
-              Message us on Messenger and we will send the payment details and
-              download link.
-            </p>
+          <MessengerCallout
+            variant="card"
+            className="mt-10"
+            title="Interested in this resource?"
+            description="Message us on Messenger and we will send the payment details and download link."
+          />
 
-            <Button
-              href={messengerHref}
-              variant="messenger"
-              fullWidth
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4"
+          <p className="text-ink-soft mt-4 text-center text-sm">
+            <Link
+              to={ROUTES.paymentOptions}
+              className="text-brand font-medium hover:underline"
             >
-              <MessengerIcon className="size-5" />
-              {MESSENGER.ctaLabel}
-            </Button>
-          </div>
+              See accepted payment methods
+            </Link>
+          </p>
         </div>
       </div>
     </div>

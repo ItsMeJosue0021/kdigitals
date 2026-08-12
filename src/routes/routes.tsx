@@ -1,8 +1,9 @@
 import { RootLayout } from '@/components/layout/RootLayout'
-import { ComingSoonPage } from '@/pages/ComingSoonPage'
 import { HomePage } from '@/pages/HomePage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
+import { PaymentOptionsPage } from '@/pages/PaymentOptionsPage'
 import { ProductDetailPage } from '@/pages/ProductDetailPage'
+import { TestimonialPage } from '@/pages/TestimonialPage'
 import { ROUTES } from './paths'
 
 /**
@@ -15,14 +16,8 @@ export const routes = [
     children: [
       { index: true, element: <HomePage /> },
       { path: `${ROUTES.products}/:slug`, element: <ProductDetailPage /> },
-      {
-        path: ROUTES.paymentOptions,
-        element: <ComingSoonPage title="Payment Options" />,
-      },
-      {
-        path: ROUTES.testimonial,
-        element: <ComingSoonPage title="Testimonial" />,
-      },
+      { path: ROUTES.paymentOptions, element: <PaymentOptionsPage /> },
+      { path: ROUTES.testimonial, element: <TestimonialPage /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

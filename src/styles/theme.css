@@ -23,6 +23,11 @@
   --color-messenger: #006aff;
   --color-messenger-dark: #0057d6;
 
+  /* Feedback --------------------------------------------------------- */
+  /* Confirmation green for checkmarks. Brand-picked; sits at 2.3:1 on white,
+     so it is decorative only — never rely on it alone to carry meaning. */
+  --color-success: #52c41a;
+
   /* Neutrals --------------------------------------------------------- */
   --color-ink: #14201d;
   --color-ink-soft: #6f7d78;

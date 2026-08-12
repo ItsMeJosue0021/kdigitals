@@ -28,6 +28,8 @@ export const MESSENGER = {
    */
   handle: '61593157712865',
   ctaLabel: 'Send us a Message',
+  /** Used where the button also copies the product details first. */
+  copyCtaLabel: 'Copy & Message Us',
 } as const
 
 /** Public profile page, for the "follow us" link in the footer. */

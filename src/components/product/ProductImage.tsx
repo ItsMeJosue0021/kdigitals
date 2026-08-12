@@ -1,5 +1,5 @@
 import { cn } from '@/lib/cn'
-import { placeholderCover } from '@/lib/placeholderCover'
+import { placeholderCover, type CoverPalette } from '@/lib/placeholderCover'
 
 interface ProductImageProps {
   /** Real image URL. Falls back to a generated cover when omitted. */
@@ -8,6 +8,8 @@ interface ProductImageProps {
   alt: string
   /** Keeps the generated cover stable for a given product. */
   seed: string
+  /** Pins the generated cover's gradient instead of deriving it from `seed`. */
+  palette?: CoverPalette
   className?: string
   /** Skip lazy loading for above-the-fold images. */
   eager?: boolean
@@ -17,12 +19,13 @@ export function ProductImage({
   src,
   alt,
   seed,
+  palette,
   className,
   eager = false,
 }: ProductImageProps) {
   return (
     <img
-      src={src ?? placeholderCover(seed)}
+      src={src ?? placeholderCover(seed, palette)}
       alt={alt}
       loading={eager ? 'eager' : 'lazy'}
       decoding="async"

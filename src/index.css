@@ -67,6 +67,75 @@
     }
   }
 
+  /**
+   * Centred modal dialog. Same `allow-discrete` technique as `.nav-dialog`,
+   * so it animates on close as well as on open.
+   */
+  .modal-dialog {
+    margin: auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    opacity: 0;
+    scale: 0.96;
+    translate: 0 0.5rem;
+    transition:
+      opacity 220ms ease,
+      scale 220ms ease,
+      translate 220ms ease,
+      display 220ms allow-discrete,
+      overlay 220ms allow-discrete;
+  }
+
+  .modal-dialog[open] {
+    opacity: 1;
+    scale: 1;
+    translate: 0 0;
+  }
+
+  @starting-style {
+    .modal-dialog[open] {
+      opacity: 0;
+      scale: 0.96;
+      translate: 0 0.5rem;
+    }
+  }
+
+  .modal-dialog::backdrop {
+    background: rgb(20 32 29 / 45%);
+    opacity: 0;
+    transition:
+      opacity 220ms ease,
+      display 220ms allow-discrete,
+      overlay 220ms allow-discrete;
+  }
+
+  .modal-dialog[open]::backdrop {
+    opacity: 1;
+  }
+
+  @starting-style {
+    .modal-dialog[open]::backdrop {
+      opacity: 0;
+    }
+  }
+
+  /* Determinate loader. Duration is set inline to match the redirect delay. */
+  .progress-fill {
+    animation-name: progress-fill;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes progress-fill {
+    from {
+      width: 0%;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
   /* Staggered entrance for the menu items. Restarts on every open, because
      the dialog goes from `display: none` back to rendered. */
   .nav-item-in {

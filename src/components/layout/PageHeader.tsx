@@ -14,7 +14,7 @@ export function PageHeader({ eyebrow, title, description }: PageHeaderProps) {
       />
 
       <div className="max-w-page relative mx-auto px-4 pt-20 pb-16 text-center sm:px-6 lg:px-8 lg:py-20">
-        <p className="text-brand animate-rise text-sm font-medium tracking-wide uppercase">
+        <p className="text-accent-ink animate-rise text-sm font-medium tracking-wide uppercase">
           {eyebrow}
         </p>
 

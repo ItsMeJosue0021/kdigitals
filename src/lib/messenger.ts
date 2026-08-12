@@ -17,6 +17,36 @@ const FACEBOOK_THREAD_URL = 'https://www.facebook.com/messages/t'
  *   The numeric ID is the most reliable, since usernames can be changed.
  * @param preferApp Whether to target the Messenger app (mobile/tablet).
  */
+/**
+ * Absolute URL for a path, falling back to the path itself when there is no
+ * browser (server rendering, tests).
+ */
+export function absoluteUrl(path: string): string {
+  if (typeof window === 'undefined') return path
+  return new URL(path, window.location.origin).href
+}
+
+/**
+ * The message a buyer pastes into the chat, so the seller immediately knows
+ * which product is meant. Includes the page URL, because product titles can
+ * look alike once several bundles exist.
+ */
+export function buildProductEnquiry(options: {
+  shopName: string
+  title: string
+  price: string
+  url: string
+}): string {
+  const { shopName, title, price, url } = options
+
+  return [
+    `Hi ${shopName}! I'd like to order this resource:`,
+    '',
+    `${title} — ${price}`,
+    url,
+  ].join('\n')
+}
+
 export function buildMessengerHref(handle: string, preferApp: boolean): string {
   const target = encodeURIComponent(handle)
 

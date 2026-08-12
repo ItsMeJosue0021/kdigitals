@@ -43,7 +43,7 @@ export function HomeHero({ catalogueId }: HomeHeroProps) {
       <div className="max-w-page relative mx-auto grid items-center gap-12 px-4 pt-20 pb-16 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:px-8 lg:py-20">
         <div className="text-center lg:text-left">
           <p
-            className="text-brand animate-rise mb-3 text-sm font-medium tracking-wide uppercase"
+            className="text-accent-ink animate-rise mb-3 text-sm font-medium tracking-wide uppercase"
             style={{ animationDelay: `${DELAY.eyebrow}ms` }}
           >
             Digital resources for teachers
@@ -106,10 +106,12 @@ export function HomeHero({ catalogueId }: HomeHeroProps) {
               style={{ animationDelay: '-1s' }}
             >
               <div className="bg-parchment aspect-video overflow-hidden">
+                {/* Gold cover so the stack is not teal on teal on teal. */}
                 <ProductImage
                   src={feature.images[0]}
                   alt=""
                   seed={feature.id}
+                  palette="gold"
                   eager
                 />
               </div>

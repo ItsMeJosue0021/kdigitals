@@ -3,18 +3,30 @@
  *
  * The result is an inline SVG data URI: no network request, no bundled asset,
  * and the same product always gets the same cover because everything is
- * derived from a hash of the seed.
+ * derived from a hash of the seed. Callers can pin the gradient with the
+ * optional `palette` argument when a layout needs a specific colour.
  */
 
-/** Gradient pairs drawn from the brand palette (COLOR-THEME.md). */
-const PALETTES: readonly (readonly [string, string])[] = [
-  ['#3a7b6b', '#88b5b2'],
-  ['#88b5b2', '#cebbb4'],
-  ['#f6ad15', '#cebbb4'],
-  ['#3a7b6b', '#f6ad15'],
-  ['#88b5b2', '#3a7b6b'],
-  ['#cebbb4', '#88b5b2'],
-]
+/** Named gradient pairs drawn from the brand palette (COLOR-THEME.md). */
+export type CoverPalette =
+  | 'teal'
+  | 'mist'
+  | 'gold'
+  | 'sunrise'
+  | 'forest'
+  | 'sand'
+
+const PALETTES: Record<CoverPalette, readonly [string, string]> = {
+  teal: ['#3a7b6b', '#88b5b2'],
+  mist: ['#88b5b2', '#cebbb4'],
+  gold: ['#f6ad15', '#cebbb4'],
+  sunrise: ['#3a7b6b', '#f6ad15'],
+  forest: ['#88b5b2', '#3a7b6b'],
+  sand: ['#cebbb4', '#88b5b2'],
+}
+
+/** Rotation order used when no palette is named. */
+const PALETTE_NAMES = Object.keys(PALETTES) as CoverPalette[]
 
 /** Small deterministic string hash (djb2-style). */
 function hash(seed: string): number {
@@ -26,9 +38,14 @@ function hash(seed: string): number {
   return Math.abs(value)
 }
 
-export function placeholderCover(seed: string): string {
+export function placeholderCover(
+  seed: string,
+  /** Pins the gradient instead of deriving it from the seed. */
+  palette?: CoverPalette,
+): string {
   const seedValue = hash(seed)
-  const [from, to] = PALETTES[seedValue % PALETTES.length]
+  const [from, to] =
+    PALETTES[palette ?? PALETTE_NAMES[seedValue % PALETTE_NAMES.length]]
 
   // Vary the composition so a grid of placeholders does not look repetitive.
   const circleX = 120 + (seedValue % 5) * 130

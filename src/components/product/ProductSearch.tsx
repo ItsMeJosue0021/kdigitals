@@ -83,7 +83,7 @@ export function ProductSearch({
             onChange={(event) => onQueryChange(event.target.value)}
             placeholder="Search lesson plans, worksheets, forms…"
             autoComplete="off"
-            className="border-line focus:border-brand placeholder:text-ink-soft/80 focus:ring-brand/20 w-full rounded-full border bg-white py-3.5 pr-14 pl-13 text-[0.9375rem] shadow-sm transition-colors outline-none focus:ring-2 [&::-webkit-search-cancel-button]:appearance-none"
+            className="border-line focus:border-brand-ink placeholder:text-ink-soft/80 focus:ring-brand/20 bg-surface text-ink w-full rounded-full border py-3.5 pr-14 pl-13 text-[0.9375rem] shadow-sm transition-colors outline-none focus:ring-2 [&::-webkit-search-cancel-button]:appearance-none"
           />
 
           {query !== '' && (
@@ -122,7 +122,7 @@ export function ProductSearch({
                   'shrink-0 cursor-pointer rounded-full border px-4 py-2 text-sm whitespace-nowrap transition-colors',
                   isActive
                     ? 'border-brand bg-brand text-white'
-                    : 'border-line text-ink-soft hover:border-brand/50 bg-white',
+                    : 'border-line text-ink-soft hover:border-brand/50 bg-surface',
                 )}
               >
                 {filter.label}

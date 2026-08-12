@@ -18,7 +18,8 @@ const EXTERNAL_LINK_PROPS = {
   rel: 'noopener noreferrer',
 } as const
 
-const LINK_CLASSES = 'text-ink-soft hover:text-brand text-sm transition-colors'
+const LINK_CLASSES =
+  'text-ink-soft hover:text-brand-ink text-sm transition-colors'
 const HEADING_CLASSES =
   'text-ink text-sm font-semibold tracking-wide uppercase'
 
@@ -27,7 +28,7 @@ export function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="border-line/70 mt-auto border-t bg-white">
+    <footer className="border-line/70 bg-surface mt-auto border-t">
       {/* Centred while the columns are stacked; left-aligned once they sit
           side by side at `sm`. Inline-level children (logo, buttons, links)
           follow the `text-center` on this container. */}

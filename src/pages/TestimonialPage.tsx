@@ -39,7 +39,7 @@ export function TestimonialPage() {
           Want to see what they bought?{' '}
           <Link
             to={ROUTES.home}
-            className="text-brand font-medium hover:underline"
+            className="text-brand-ink font-medium hover:underline"
           >
             Browse all products
           </Link>

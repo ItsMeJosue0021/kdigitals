@@ -67,7 +67,7 @@ export function MessengerCallout({
   return (
     <div
       className={cn(
-        'border-line/70 rounded-2xl border bg-white',
+        'border-line/70 bg-surface rounded-2xl border',
         isPanel ? 'p-8 text-center sm:p-10' : 'p-5',
         className,
       )}

@@ -11,6 +11,27 @@
       rel="stylesheet"
     />
     <title>KDigitals</title>
+    <script>
+      /*
+        Applies the saved theme before the first paint, so a dark-mode
+        visitor never gets a flash of the light page. Mirrors the storage
+        key, class name, and system fallback in src/lib/theme.ts — update
+        both together.
+      */
+      ;(function () {
+        try {
+          var stored = localStorage.getItem('kstore-theme')
+          var isDark =
+            stored === 'dark' ||
+            (stored !== 'light' &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches)
+
+          document.documentElement.classList.toggle('dark', isDark)
+        } catch (error) {
+          // Storage or matchMedia unavailable: stay on the light default.
+        }
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

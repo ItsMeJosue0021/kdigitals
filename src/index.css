@@ -1,6 +1,35 @@
 @import "tailwindcss";
 @import "./styles/theme.css";
 
+/**
+ * Drive `dark:` utilities from a class on <html> instead of the OS setting,
+ * so the in-page toggle can override the system preference. The provider
+ * still falls back to `prefers-color-scheme` until the visitor picks a side.
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/**
+ * Elevation utilities. These read the `--shadow-*` custom properties from
+ * styles/theme.css at use time, so the shadow re-tints when the theme
+ * flips — which a `@theme` shadow token cannot do, because Tailwind inlines
+ * those into the generated class.
+ */
+@utility shadow-card {
+  box-shadow: var(--shadow-card);
+}
+
+@utility shadow-lift {
+  box-shadow: var(--shadow-lift);
+}
+
+@utility shadow-float {
+  box-shadow: var(--shadow-float);
+}
+
+@utility shadow-modal {
+  box-shadow: var(--shadow-modal);
+}
+
 /** Hides the scrollbar on horizontally scrollable rows (chips, carousels). */
 @utility no-scrollbar {
   scrollbar-width: none;
@@ -48,6 +77,10 @@
     }
   }
 
+  /* Scrim colours are written out per theme rather than read from a custom
+     property: `::backdrop` only inherits from its originating element in
+     newer browsers, so a `var()` here would resolve to nothing in older
+     ones and leave the page unshaded. */
   .nav-dialog::backdrop {
     background: rgb(20 32 29 / 45%);
     opacity: 0;
@@ -55,6 +88,10 @@
       opacity 240ms ease,
       display 240ms allow-discrete,
       overlay 240ms allow-discrete;
+  }
+
+  .dark .nav-dialog::backdrop {
+    background: rgb(0 0 0 / 65%);
   }
 
   .nav-dialog[open]::backdrop {
@@ -110,6 +147,10 @@
       overlay 220ms allow-discrete;
   }
 
+  .dark .modal-dialog::backdrop {
+    background: rgb(0 0 0 / 65%);
+  }
+
   .modal-dialog[open]::backdrop {
     opacity: 1;
   }
@@ -157,14 +198,23 @@
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
+    /* Keeps browser-rendered UI — scrollbars, form controls, autofill —
+       in step with the theme. */
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
   }
 
   body {
     @apply bg-parchment text-ink font-sans antialiased;
   }
 
+  /* `brand-ink` rather than `brand`: the ring has to stay visible against
+     the dark page, where the deep teal all but disappears. */
   :focus-visible {
-    @apply outline-brand rounded-sm outline-2 outline-offset-2;
+    @apply outline-brand-ink rounded-sm outline-2 outline-offset-2;
   }
 
   /* Respect the OS "reduce motion" setting: entrance animations still land on

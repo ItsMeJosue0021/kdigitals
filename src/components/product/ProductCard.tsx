@@ -12,7 +12,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product, eager = false }: ProductCardProps) {
   return (
-    <article className="group border-line/70 hover:border-brand/40 relative flex w-full flex-col overflow-hidden rounded-xl border bg-white transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgb(20_32_29/0.10)] focus-within:-translate-y-1">
+    <article className="group border-line/70 hover:border-brand/40 bg-surface hover:shadow-card relative flex w-full flex-col overflow-hidden rounded-xl border transition-all duration-200 hover:-translate-y-1 focus-within:-translate-y-1">
       <div className="bg-parchment aspect-4/3 overflow-hidden">
         <ProductImage
           src={product.images[0]}
@@ -24,7 +24,7 @@ export function ProductCard({ product, eager = false }: ProductCardProps) {
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-5">
-        <p className="text-brand text-xs font-medium tracking-wide uppercase">
+        <p className="text-brand-ink text-xs font-medium tracking-wide uppercase">
           {product.category}
         </p>
 

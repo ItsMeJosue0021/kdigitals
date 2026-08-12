@@ -9,7 +9,8 @@ const BASE_CLASSES =
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary: 'border-brand bg-brand text-white hover:border-brand-dark hover:bg-brand-dark',
-  outline: 'border-ink/60 bg-white text-ink hover:border-brand hover:text-brand',
+  outline:
+    'border-ink/60 bg-surface text-ink hover:border-brand-ink hover:text-brand-ink',
   ghost: 'border-transparent bg-transparent text-ink hover:bg-ink/5',
   messenger:
     'border-messenger bg-messenger text-white hover:border-messenger-dark hover:bg-messenger-dark',

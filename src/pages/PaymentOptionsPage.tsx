@@ -71,7 +71,7 @@ export function PaymentOptionsPage() {
             {ORDER_STEPS.map((step, index) => (
               <li
                 key={step.title}
-                className="border-line/70 flex gap-4 rounded-2xl border bg-white p-5 sm:gap-5 sm:p-6"
+                className="border-line/70 bg-surface flex gap-4 rounded-2xl border p-5 sm:gap-5 sm:p-6"
               >
                 <span
                   aria-hidden="true"
@@ -98,21 +98,21 @@ export function PaymentOptionsPage() {
             role="list"
             className="text-ink-soft mt-6 grid gap-4 sm:grid-cols-2"
           >
-            <li className="border-line/70 rounded-2xl border bg-white p-5">
+            <li className="border-line/70 bg-surface rounded-2xl border p-5">
               <h3 className="text-ink font-semibold">Digital products only</h3>
               <p className="mt-1.5 text-sm leading-relaxed">
                 Everything in the shop is a downloadable file. Nothing is
                 shipped, so there are no delivery fees or waiting time.
               </p>
             </li>
-            <li className="border-line/70 rounded-2xl border bg-white p-5">
+            <li className="border-line/70 bg-surface rounded-2xl border p-5">
               <h3 className="text-ink font-semibold">Keep your receipt</h3>
               <p className="mt-1.5 text-sm leading-relaxed">
                 Save your reference number until you have downloaded your files.
                 It is the fastest way for us to check a payment.
               </p>
             </li>
-            <li className="border-line/70 rounded-2xl border bg-white p-5">
+            <li className="border-line/70 bg-surface rounded-2xl border p-5">
               <h3 className="text-ink font-semibold">
                 We never message you first
               </h3>
@@ -122,7 +122,7 @@ export function PaymentOptionsPage() {
                 not us.
               </p>
             </li>
-            <li className="border-line/70 rounded-2xl border bg-white p-5">
+            <li className="border-line/70 bg-surface rounded-2xl border p-5">
               <h3 className="text-ink font-semibold">Questions before paying</h3>
               <p className="mt-1.5 text-sm leading-relaxed">
                 Not sure a resource fits your grade level? Ask first. We would
@@ -142,7 +142,7 @@ export function PaymentOptionsPage() {
           Still browsing?{' '}
           <Link
             to={ROUTES.home}
-            className="text-brand font-medium hover:underline"
+            className="text-brand-ink font-medium hover:underline"
           >
             See all products
           </Link>

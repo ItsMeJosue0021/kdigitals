@@ -20,7 +20,7 @@ function initials(name: string): string {
 
 export function TestimonialCard({ testimonial }: TestimonialCardProps) {
   return (
-    <article className="border-line/70 flex h-full flex-col rounded-2xl border bg-white p-6">
+    <article className="border-line/70 bg-surface flex h-full flex-col rounded-2xl border p-6">
       <div
         className="flex gap-0.5"
         role="img"
@@ -43,13 +43,13 @@ export function TestimonialCard({ testimonial }: TestimonialCardProps) {
 
       <p className="text-ink-soft mt-5 text-xs">
         Purchased{' '}
-        <span className="text-brand font-medium">{testimonial.product}</span>
+        <span className="text-brand-ink font-medium">{testimonial.product}</span>
       </p>
 
       <footer className="border-line/70 mt-5 flex items-center gap-3 border-t pt-5">
         <span
           aria-hidden="true"
-          className="bg-brand-soft/30 text-brand inline-flex size-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold"
+          className="bg-brand-soft/30 text-brand-ink dark:bg-brand-soft/15 inline-flex size-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold"
         >
           {initials(testimonial.name)}
         </span>

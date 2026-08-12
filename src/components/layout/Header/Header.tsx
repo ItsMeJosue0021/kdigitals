@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/Button'
 import { Logo } from '@/components/ui/Logo'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { CloseIcon, MenuIcon, MessengerIcon } from '@/components/ui/icons'
 import { MESSENGER } from '@/config/site'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
@@ -69,25 +70,29 @@ export function Header() {
 
           <HeaderNav label="Primary" className="hidden lg:block" />
 
-          <Button
-            href={messengerHref}
-            variant="messenger"
-            className="hidden lg:inline-flex"
-            {...CTA_LINK_PROPS}
-          >
-            <MessengerIcon className="size-5" />
-            {MESSENGER.ctaLabel}
-          </Button>
+          <div className="flex items-center gap-1 sm:gap-2">
+            <ThemeToggle />
 
-          {/* Icon-only Messenger shortcut, mirroring the desktop CTA. */}
-          <a
-            href={messengerHref}
-            aria-label={MESSENGER.ctaLabel}
-            className="bg-messenger hover:bg-messenger-dark -mr-1 inline-flex size-11 items-center justify-center rounded-full text-white transition-colors lg:hidden"
-            {...CTA_LINK_PROPS}
-          >
-            <MessengerIcon className="size-5.5" />
-          </a>
+            <Button
+              href={messengerHref}
+              variant="messenger"
+              className="hidden lg:inline-flex"
+              {...CTA_LINK_PROPS}
+            >
+              <MessengerIcon className="size-5" />
+              {MESSENGER.ctaLabel}
+            </Button>
+
+            {/* Icon-only Messenger shortcut, mirroring the desktop CTA. */}
+            <a
+              href={messengerHref}
+              aria-label={MESSENGER.ctaLabel}
+              className="bg-messenger hover:bg-messenger-dark -mr-1 inline-flex size-11 items-center justify-center rounded-full text-white transition-colors lg:hidden"
+              {...CTA_LINK_PROPS}
+            >
+              <MessengerIcon className="size-5.5" />
+            </a>
+          </div>
         </div>
       </header>
 
@@ -116,6 +121,10 @@ export function Header() {
             </button>
 
             <Logo />
+
+            {/* The header behind the dialog is inert, so the menu needs its
+                own way to reach the theme. */}
+            <ThemeToggle className="-mr-2 ml-auto" />
           </div>
 
           <div className="flex flex-1 flex-col items-center justify-center gap-10 px-6 pb-20">

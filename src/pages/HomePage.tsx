@@ -82,7 +82,7 @@ export function HomePage() {
         {results.length > 0 ? (
           <ProductGrid products={results} />
         ) : (
-          <div className="border-line/70 rounded-2xl border border-dashed bg-white px-6 py-16 text-center">
+          <div className="border-line/70 bg-surface rounded-2xl border border-dashed px-6 py-16 text-center">
             <p className="text-ink text-lg font-semibold">No products found</p>
             <p className="text-ink-soft mx-auto mt-2 max-w-md text-sm">
               We could not find anything matching your search. Try a different

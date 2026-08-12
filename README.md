@@ -18,8 +18,10 @@ src/
   components/
     layout/       Page regions (RootLayout, Header)
     product/      Catalogue components (card, grid, search, gallery)
-    ui/           Reusable primitives (Button, Logo, icons)
+    theme/        ThemeProvider (owns the light/dark choice)
+    ui/           Reusable primitives (Button, Logo, ThemeToggle, icons)
   config/         Site content: navigation, brand, Messenger handle
+  context/        React contexts, kept apart from the components that provide them
   data/           Product catalogue
   hooks/          Reusable React hooks
   lib/            Framework-agnostic helpers (cn, format, search, placeholders)
@@ -60,3 +62,36 @@ Design tokens live in [`src/styles/theme.css`](src/styles/theme.css) inside Tail
 
 Use theme utilities rather than raw hex values or arbitrary classes; add a new token
 to `theme.css` when a value is missing.
+
+### Dark mode
+
+Dark mode is a **token swap, not a second set of classes**. A `.dark` class on
+`<html>` re-points the semantic tokens — `parchment` (page), `surface` (cards,
+panels, inputs), `ink`, `ink-soft`, `line`, and the `--shadow-*` properties — at
+their dark values, so anything built from those utilities follows the theme with
+no extra markup.
+
+What that means when writing components:
+
+- Reach for `bg-surface`, never `bg-white`. `text-white` is still correct on a
+  filled brand or Messenger button, where the background is fixed in both themes.
+- Use `text-brand-ink` / `text-accent-ink` for brand-coloured **text and icons**,
+  and `bg-brand` / `border-brand` for **fills**. The pair exists because a fill
+  only needs 3:1 against the page while text needs 4.5:1, and the deep teal
+  cannot reach that on the dark surface.
+- Use the `shadow-card` / `shadow-lift` / `shadow-float` / `shadow-modal`
+  utilities instead of arbitrary `shadow-[...]` values, so shadows re-tint with
+  the theme. (They are defined with `@utility` in `index.css` rather than as
+  `@theme` tokens because Tailwind inlines `--shadow-*` theme values into the
+  generated class, which would freeze them at their light values.)
+- Add a `dark:` utility only where the *shape* of a style changes rather than its
+  colour — the decorative blur washes in `HomeHero` and `PageHeader`, for
+  instance, need a lower opacity on a near-black page.
+
+The plumbing: [`src/lib/theme.ts`](src/lib/theme.ts) holds the storage key, class
+name, and helpers; `ThemeProvider` resolves the choice and keeps `<html>` in step;
+`useTheme` reads it; `ThemeToggle` in the header flips it. Until the visitor uses
+the toggle the setting is `system`, so the site follows the OS and keeps following
+it mid-session. An inline script in `index.html` applies the saved theme before the
+first paint so dark mode never flashes white — it mirrors `src/lib/theme.ts`, so
+change the two together.

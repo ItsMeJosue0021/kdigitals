@@ -9,8 +9,8 @@ export function PaymentMethodCard({ method }: PaymentMethodCardProps) {
   const Icon = method.kind === 'wallet' ? WalletIcon : BankIcon
 
   return (
-    <article className="border-line/70 hover:border-brand/40 flex h-full flex-col rounded-2xl border bg-white p-6 transition-colors">
-      <span className="bg-brand/10 text-brand inline-flex size-11 items-center justify-center rounded-full">
+    <article className="border-line/70 hover:border-brand/40 bg-surface flex h-full flex-col rounded-2xl border p-6 transition-colors">
+      <span className="bg-brand/10 text-brand-ink dark:bg-brand/20 inline-flex size-11 items-center justify-center rounded-full">
         <Icon className="size-5.5" />
       </span>
 

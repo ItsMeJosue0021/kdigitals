@@ -10,7 +10,7 @@ export function PageHeader({ eyebrow, title, description }: PageHeaderProps) {
     <section className="border-line/60 relative overflow-hidden border-b">
       <div
         aria-hidden="true"
-        className="bg-brand-soft/25 pointer-events-none absolute -top-40 left-1/2 size-104 -translate-x-1/2 rounded-full blur-3xl"
+        className="bg-brand-soft/25 dark:bg-brand-soft/10 pointer-events-none absolute -top-40 left-1/2 size-104 -translate-x-1/2 rounded-full blur-3xl"
       />
 
       <div className="max-w-page relative mx-auto px-4 pt-20 pb-16 text-center sm:px-6 lg:px-8 lg:py-20">

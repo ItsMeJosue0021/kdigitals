@@ -102,6 +102,23 @@ export function BankIcon(props: IconProps) {
   )
 }
 
+export function SunIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <circle cx="12" cy="12" r="4.25" />
+      <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4" />
+    </Icon>
+  )
+}
+
+export function MoonIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M20 14.4A8.4 8.4 0 0 1 9.6 4 7.6 7.6 0 1 0 20 14.4z" />
+    </Icon>
+  )
+}
+
 export function InfoIcon(props: IconProps) {
   return (
     <Icon {...props}>

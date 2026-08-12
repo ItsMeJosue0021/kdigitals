@@ -36,8 +36,10 @@ export function HomeHero({ catalogueId }: HomeHeroProps) {
     <section className="border-line/60 relative overflow-hidden border-b">
       {/* Soft brand wash behind the content. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="bg-brand-soft/30 absolute -top-40 -right-32 size-136 rounded-full blur-3xl" />
-        <div className="bg-accent/15 absolute -bottom-48 left-1/4 size-104 rounded-full blur-3xl" />
+        {/* Dialled back on dark: the same opacity over a near-black page
+            reads as a glowing blob rather than a tint. */}
+        <div className="bg-brand-soft/30 dark:bg-brand-soft/12 absolute -top-40 -right-32 size-136 rounded-full blur-3xl" />
+        <div className="bg-accent/15 dark:bg-accent/8 absolute -bottom-48 left-1/4 size-104 rounded-full blur-3xl" />
       </div>
 
       <div className="max-w-page relative mx-auto grid items-center gap-12 px-4 pt-20 pb-16 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:px-8 lg:py-20">
@@ -73,9 +75,9 @@ export function HomeHero({ catalogueId }: HomeHeroProps) {
             {HIGHLIGHTS.map((highlight) => (
               <li
                 key={highlight.label}
-                className="border-line/70 text-ink-soft hover:border-brand/40 hover:text-ink flex items-center gap-2 rounded-full border bg-white/70 px-3.5 py-2 text-sm shadow-sm backdrop-blur-sm transition-colors"
+                className="border-line/70 text-ink-soft hover:border-brand/40 hover:text-ink bg-surface/70 flex items-center gap-2 rounded-full border px-3.5 py-2 text-sm shadow-sm backdrop-blur-sm transition-colors"
               >
-                <span className="text-brand">{highlight.icon}</span>
+                <span className="text-brand-ink">{highlight.icon}</span>
                 {highlight.label}
               </li>
             ))}
@@ -102,7 +104,7 @@ export function HomeHero({ catalogueId }: HomeHeroProps) {
         >
           <div className="grid grid-cols-2 gap-4">
             <figure
-              className="border-line/60 animate-float col-span-2 -rotate-2 overflow-hidden rounded-2xl border bg-white shadow-[0_18px_50px_rgb(20_32_29/0.12)]"
+              className="border-line/60 animate-float bg-surface shadow-lift col-span-2 -rotate-2 overflow-hidden rounded-2xl border"
               style={{ animationDelay: '-1s' }}
             >
               <div className="bg-parchment aspect-video overflow-hidden">
@@ -128,7 +130,7 @@ export function HomeHero({ catalogueId }: HomeHeroProps) {
             {supporting.map((product, index) => (
               <figure
                 key={product.id}
-                className={`border-line/60 bg-parchment animate-float relative aspect-4/3 overflow-hidden rounded-2xl border shadow-[0_12px_32px_rgb(20_32_29/0.10)] ${
+                className={`border-line/60 bg-parchment animate-float shadow-float relative aspect-4/3 overflow-hidden rounded-2xl border ${
                   index === 0 ? 'rotate-3' : '-rotate-1'
                 }`}
                 // Negative delays start each card mid-cycle, so they drift
@@ -141,7 +143,7 @@ export function HomeHero({ catalogueId }: HomeHeroProps) {
                   seed={product.id}
                   eager
                 />
-                <figcaption className="text-ink absolute right-2 bottom-2 rounded-full bg-white/95 px-2.5 py-1 text-xs font-bold">
+                <figcaption className="text-ink bg-surface/95 absolute right-2 bottom-2 rounded-full px-2.5 py-1 text-xs font-bold">
                   {formatPrice(product.price)}
                 </figcaption>
               </figure>

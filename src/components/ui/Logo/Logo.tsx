@@ -29,9 +29,11 @@ export function Logo({ label = 'Go to homepage', className }: LogoProps) {
         aria-hidden="true"
         focusable="false"
       >
+        {/* Teal arc uses `brand-ink` so it lightens on the dark header
+            instead of sinking into it. The gold arc reads on both. */}
         <path
           d="M5 24C5 13.5 12 6 22 5"
-          stroke="var(--color-brand)"
+          stroke="var(--color-brand-ink)"
           strokeWidth="4"
           strokeLinecap="round"
         />

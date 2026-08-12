@@ -3,23 +3,34 @@
  * Everything declared here becomes a real Tailwind utility, e.g.
  * `--color-brand` -> `bg-brand` / `text-brand` / `border-brand`.
  * Palette source: COLOR-THEME.md
+ *
+ * Dark mode is a token swap, not a second set of classes: the `.dark`
+ * block at the bottom of this file re-points the semantic tokens
+ * (surfaces, ink, lines, shadows) at their dark values, so components keep
+ * using `bg-surface` / `text-ink` and follow the theme for free. Reach for
+ * a `dark:` utility only where the *shape* of a style changes, such as the
+ * opacity of a decorative wash.
  */
 
 @theme {
   /* Brand ------------------------------------------------------------ */
-  --color-brand: #3a7b6b; /* deep teal */
-  --color-brand-dark: #2f6557;
-  --color-brand-soft: #88b5b2; /* muted teal */
+  --color-brand: #3a7b6b; /* deep teal — fills and borders */
+  --color-brand-dark: #2f6557; /* hover for brand fills */
+  --color-brand-soft: #88b5b2; /* muted teal — decorative washes */
+  /* Brand colour for text and icons. Split from `--color-brand` because a
+     fill only needs 3:1 against the page, while text needs 4.5:1 — on the
+     dark surface the deep teal cannot reach that, so this token lightens. */
+  --color-brand-ink: #3a7b6b;
   --color-accent: #f6ad15; /* sunflower gold */
-  /* Darkened gold for icons and text on a tinted accent background, where
-     #f6ad15 itself is too light to read. */
+  /* Gold for icons and text, where #f6ad15 itself is too light to read on
+     a light background. Lightens in dark mode for the same reason. */
   --color-accent-ink: #8a5a00;
   --color-sand: #cebbb4; /* almond silk */
-  --color-parchment: #fbf7f4;
 
   /* Third-party brands ------------------------------------------------ */
   /* The deep end of Messenger's own blue gradient. Picked over the lighter
-     #0084ff because white text on it clears WCAG AA (4.66:1 vs 3.66:1). */
+     #0084ff because white text on it clears WCAG AA (4.66:1 vs 3.66:1).
+     Held steady across themes: it is Messenger's colour, not ours. */
   --color-messenger: #006aff;
   --color-messenger-dark: #0057d6;
 
@@ -28,7 +39,9 @@
      so it is decorative only — never rely on it alone to carry meaning. */
   --color-success: #52c41a;
 
-  /* Neutrals --------------------------------------------------------- */
+  /* Surfaces and neutrals -------------------------------------------- */
+  --color-parchment: #fbf7f4; /* page background */
+  --color-surface: #ffffff; /* cards, panels, inputs */
   --color-ink: #14201d;
   --color-ink-soft: #6f7d78;
   --color-line: #e6ded8;
@@ -77,4 +90,53 @@
       translate: 0 -0.5rem;
     }
   }
+}
+
+/**
+ * Elevation.
+ *
+ * Kept out of `@theme` on purpose: Tailwind inlines `--shadow-*` theme
+ * values into the utilities it generates, which would make them immune to
+ * the dark override below. As plain custom properties they stay live, and
+ * the `shadow-card` / `shadow-lift` / `shadow-float` / `shadow-modal`
+ * utilities in index.css read them at use time.
+ *
+ * Tinted with the ink colour on light; near-black on dark, where a tinted
+ * shadow reads as a grey haze instead of depth.
+ */
+:root {
+  --shadow-card: 0 16px 40px rgb(20 32 29 / 0.1);
+  --shadow-lift: 0 18px 50px rgb(20 32 29 / 0.12);
+  --shadow-float: 0 12px 32px rgb(20 32 29 / 0.1);
+  --shadow-modal: 0 24px 60px rgb(20 32 29 / 0.18);
+}
+
+/**
+ * Dark theme.
+ *
+ * Deliberately unlayered: `@theme` emits its variables inside Tailwind's
+ * `theme` layer, and an unlayered declaration beats a layered one whatever
+ * the specificity — so these overrides win without an `!important` or an
+ * inflated selector.
+ *
+ * The `.dark` class is put on <html> by the pre-paint script in index.html
+ * and kept there by `applyTheme` in src/lib/theme.ts.
+ */
+.dark {
+  /* Brand fills stay put: the deep teal already clears 3:1 against the dark
+     page, and lightening it would drop white button text below 4.5:1. Only
+     the text-facing tokens move. */
+  --color-brand-ink: #7cc4ae;
+  --color-accent-ink: #f6c76b;
+
+  --color-parchment: #101917;
+  --color-surface: #18211f;
+  --color-ink: #eef1ef;
+  --color-ink-soft: #9bada7;
+  --color-line: #2c3936;
+
+  --shadow-card: 0 16px 40px rgb(0 0 0 / 0.45);
+  --shadow-lift: 0 18px 50px rgb(0 0 0 / 0.5);
+  --shadow-float: 0 12px 32px rgb(0 0 0 / 0.45);
+  --shadow-modal: 0 24px 60px rgb(0 0 0 / 0.6);
 }

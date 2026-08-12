@@ -32,7 +32,7 @@ export function ProductDetailPage() {
     <div className="max-w-page mx-auto px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
       <Link
         to={ROUTES.home}
-        className="text-ink-soft hover:text-brand inline-flex items-center gap-2 text-sm transition-colors"
+        className="text-ink-soft hover:text-brand-ink inline-flex items-center gap-2 text-sm transition-colors"
       >
         <ArrowLeftIcon className="size-4" />
         Back to products
@@ -87,7 +87,7 @@ export function ProductDetailPage() {
           <p className="text-ink-soft mt-4 text-center text-sm">
             <Link
               to={ROUTES.paymentOptions}
-              className="text-brand font-medium hover:underline"
+              className="text-brand-ink font-medium hover:underline"
             >
               See accepted payment methods
             </Link>

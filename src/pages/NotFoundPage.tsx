@@ -7,7 +7,7 @@ export function NotFoundPage() {
 
   return (
     <div className="max-w-page mx-auto px-4 py-24 text-center sm:px-6 lg:px-8">
-      <p className="text-brand text-sm font-medium tracking-wide uppercase">
+      <p className="text-brand-ink text-sm font-medium tracking-wide uppercase">
         404
       </p>
 
@@ -21,7 +21,7 @@ export function NotFoundPage() {
 
       <Link
         to={ROUTES.home}
-        className="border-line hover:border-brand hover:text-brand mt-8 inline-flex rounded-full border bg-white px-5 py-3 text-[0.9375rem] font-medium transition-colors"
+        className="border-line hover:border-brand-ink hover:text-brand-ink bg-surface mt-8 inline-flex rounded-full border px-5 py-3 text-[0.9375rem] font-medium transition-colors"
       >
         Browse all products
       </Link>

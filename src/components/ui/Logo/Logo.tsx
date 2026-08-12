@@ -11,6 +11,9 @@ interface LogoProps {
 /**
  * Brand lockup: placeholder mark + two-tone wordmark.
  * Swap the inline SVG for the final artwork when it is available.
+ *
+ * The same mark is duplicated in `public/favicon.svg` — a favicon is loaded
+ * as its own document, so it cannot share this component. Update both.
  */
 export function Logo({ label = 'Go to homepage', className }: LogoProps) {
   return (

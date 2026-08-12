@@ -46,7 +46,7 @@ export function HomeHero({ catalogueId }: HomeHeroProps) {
             className="text-brand animate-rise mb-3 text-sm font-medium tracking-wide uppercase"
             style={{ animationDelay: `${DELAY.eyebrow}ms` }}
           >
-            Digital resources for Filipino teachers
+            Digital resources for teachers
           </p>
 
           <h1

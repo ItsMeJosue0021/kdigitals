@@ -40,7 +40,7 @@ export function HomeHero({ catalogueId }: HomeHeroProps) {
         <div className="bg-accent/15 absolute -bottom-48 left-1/4 size-104 rounded-full blur-3xl" />
       </div>
 
-      <div className="max-w-page relative mx-auto grid items-center gap-12 px-4 py-14 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:px-8 lg:py-20">
+      <div className="max-w-page relative mx-auto grid items-center gap-12 px-4 pt-20 pb-16 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:px-8 lg:py-20">
         <div className="text-center lg:text-left">
           <p
             className="text-brand animate-rise mb-3 text-sm font-medium tracking-wide uppercase"

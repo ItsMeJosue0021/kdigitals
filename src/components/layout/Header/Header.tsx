@@ -52,7 +52,20 @@ export function Header() {
     <>
       <header className="border-line/80 bg-parchment/90 sticky top-0 z-50 border-b backdrop-blur-sm">
         <div className="max-w-page mx-auto flex h-18 items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-          <Logo />
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              className="text-ink hover:bg-ink/5 -ml-2 inline-flex size-11 cursor-pointer items-center justify-center rounded-lg transition-colors lg:hidden"
+              aria-expanded={isMenuOpen}
+              aria-haspopup="dialog"
+              aria-label="Open menu"
+              onClick={() => setIsMenuRequested(true)}
+            >
+              <MenuIcon className="size-7" strokeWidth={2} />
+            </button>
+
+            <Logo />
+          </div>
 
           <HeaderNav label="Primary" className="hidden lg:block" />
 
@@ -66,16 +79,15 @@ export function Header() {
             {MESSENGER.ctaLabel}
           </Button>
 
-          <button
-            type="button"
-            className="text-ink hover:bg-ink/5 -mr-2 inline-flex size-10 cursor-pointer items-center justify-center rounded-lg transition-colors lg:hidden"
-            aria-expanded={isMenuOpen}
-            aria-haspopup="dialog"
-            aria-label="Open menu"
-            onClick={() => setIsMenuRequested(true)}
+          {/* Icon-only Messenger shortcut, mirroring the desktop CTA. */}
+          <a
+            href={messengerHref}
+            aria-label={MESSENGER.ctaLabel}
+            className="bg-messenger hover:bg-messenger-dark -mr-1 inline-flex size-11 items-center justify-center rounded-full text-white transition-colors lg:hidden"
+            {...CTA_LINK_PROPS}
           >
-            <MenuIcon className="size-6" />
-          </button>
+            <MessengerIcon className="size-5.5" />
+          </a>
         </div>
       </header>
 
@@ -91,17 +103,19 @@ export function Header() {
         onClose={closeMenu}
       >
         <div className="bg-parchment flex h-full flex-col">
-          <div className="max-w-page mx-auto flex h-18 w-full shrink-0 items-center justify-between gap-4 px-4 sm:px-6">
-            <Logo />
-
+          {/* Mirrors the header bar, so the close button sits exactly where
+              the menu button was tapped. */}
+          <div className="max-w-page mx-auto flex h-18 w-full shrink-0 items-center gap-2 px-4 sm:px-6">
             <button
               type="button"
-              className="text-ink hover:bg-ink/5 -mr-2 inline-flex size-10 cursor-pointer items-center justify-center rounded-lg transition-colors"
+              className="text-ink hover:bg-ink/5 -ml-2 inline-flex size-11 cursor-pointer items-center justify-center rounded-lg transition-colors"
               aria-label="Close menu"
               onClick={closeMenu}
             >
-              <CloseIcon className="size-6" />
+              <CloseIcon className="size-7" strokeWidth={2} />
             </button>
+
+            <Logo />
           </div>
 
           <div className="flex flex-1 flex-col items-center justify-center gap-10 px-6 pb-20">

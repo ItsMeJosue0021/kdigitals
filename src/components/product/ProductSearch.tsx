@@ -74,7 +74,7 @@ export function ProductSearch({
         </label>
 
         <div className="relative">
-          <SearchIcon className="text-ink-soft pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2" />
+          <SearchIcon className="text-ink-soft pointer-events-none absolute top-1/2 left-5 size-5 -translate-y-1/2" />
 
           <input
             id={inputId}
@@ -83,7 +83,7 @@ export function ProductSearch({
             onChange={(event) => onQueryChange(event.target.value)}
             placeholder="Search lesson plans, worksheets, forms…"
             autoComplete="off"
-            className="border-line focus:border-brand placeholder:text-ink-soft/80 focus:ring-brand/20 w-full rounded-xl border bg-white py-3.5 pr-12 pl-12 text-[0.9375rem] shadow-sm transition-colors outline-none focus:ring-2 [&::-webkit-search-cancel-button]:appearance-none"
+            className="border-line focus:border-brand placeholder:text-ink-soft/80 focus:ring-brand/20 w-full rounded-full border bg-white py-3.5 pr-14 pl-13 text-[0.9375rem] shadow-sm transition-colors outline-none focus:ring-2 [&::-webkit-search-cancel-button]:appearance-none"
           />
 
           {query !== '' && (

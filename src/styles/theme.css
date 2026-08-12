@@ -1,0 +1,47 @@
+/**
+ * Design tokens (Tailwind v4 `@theme`).
+ * Everything declared here becomes a real Tailwind utility, e.g.
+ * `--color-brand` -> `bg-brand` / `text-brand` / `border-brand`.
+ * Palette source: COLOR-THEME.md
+ */
+
+@theme {
+  /* Brand ------------------------------------------------------------ */
+  --color-brand: #3a7b6b; /* deep teal */
+  --color-brand-dark: #2f6557;
+  --color-brand-soft: #88b5b2; /* muted teal */
+  --color-accent: #f6ad15; /* sunflower gold */
+  --color-sand: #cebbb4; /* almond silk */
+  --color-parchment: #fbf7f4;
+
+  /* Third-party brands ------------------------------------------------ */
+  /* The deep end of Messenger's own blue gradient. Picked over the lighter
+     #0084ff because white text on it clears WCAG AA (4.66:1 vs 3.66:1). */
+  --color-messenger: #006aff;
+  --color-messenger-dark: #0057d6;
+
+  /* Neutrals --------------------------------------------------------- */
+  --color-ink: #14201d;
+  --color-ink-soft: #6f7d78;
+  --color-line: #e6ded8;
+
+  /* Typography ------------------------------------------------------- */
+  --font-sans: "Poppins", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  /* Layout ----------------------------------------------------------- */
+  --container-page: 77.5rem; /* 1240px -> `max-w-page` */
+
+  /* Motion ----------------------------------------------------------- */
+  --animate-slide-down: slide-down 200ms ease-out;
+
+  @keyframes slide-down {
+    from {
+      opacity: 0;
+      transform: translateY(-0.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

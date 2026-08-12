@@ -1,0 +1,25 @@
+@import "tailwindcss";
+@import "./styles/theme.css";
+
+/** Hides the scrollbar on horizontally scrollable rows (chips, carousels). */
+@utility no-scrollbar {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-parchment text-ink font-sans antialiased;
+  }
+
+  :focus-visible {
+    @apply outline-brand rounded-sm outline-2 outline-offset-2;
+  }
+}

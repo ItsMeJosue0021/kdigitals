@@ -75,7 +75,7 @@ export function MessengerRedirectDialog({
       className="modal-dialog"
       onClose={onClose}
     >
-      <div className="border-line/70 bg-surface shadow-modal w-[min(26rem,calc(100vw-2rem))] rounded-2xl border p-6 text-center sm:p-8">
+      <div className="border-line/70 bg-surface shadow-modal mx-auto w-full max-w-104 rounded-2xl border p-6 text-center sm:p-8">
         <span
           className={`inline-flex size-14 items-center justify-center rounded-full ${
             didCopy ? 'bg-success/12 text-success' : 'bg-accent/15 text-accent-ink'

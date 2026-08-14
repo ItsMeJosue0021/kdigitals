@@ -107,10 +107,18 @@
   /**
    * Centred modal dialog. Same `allow-discrete` technique as `.nav-dialog`,
    * so it animates on close as well as on open.
+   *
+   * The dialog spans the viewport and owns the gutter, rather than leaving the
+   * UA's `dialog:modal` cap (`100% - 6px - 2em`) to fight a viewport-width
+   * content box — that mismatch is what let narrow screens scroll sideways.
    */
   .modal-dialog {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
     margin: auto;
-    padding: 0;
+    padding: 0.75rem;
     border: 0;
     background: transparent;
     opacity: 0;
@@ -198,6 +206,61 @@
     }
   }
 
+  /**
+   * A gallery card being thrown off the deck. It starts wherever the gesture
+   * left it — the four custom properties are set inline by the stack — so the
+   * card carries on from the finger rather than snapping back to centre first.
+   */
+  .card-throw {
+    animation: card-throw 360ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+
+  @keyframes card-throw {
+    from {
+      transform: translateX(var(--throw-from, 0))
+        rotate(var(--throw-tilt-from, 0deg));
+      opacity: 1;
+    }
+    /* Faded out well before the travel ends, so the card is invisible for the
+       part of the arc that reaches past the page. */
+    60% {
+      opacity: 0;
+    }
+    to {
+      transform: translateX(var(--throw-to, 130%))
+        rotate(var(--throw-tilt-to, 0deg));
+      opacity: 0;
+    }
+  }
+
+  /**
+   * Attract loop for the top gallery card: a short tug towards the swipe
+   * direction, then a long pause, so the deck demonstrates the gesture roughly
+   * every five seconds instead of asking for it in words.
+   *
+   * The rest and travel values have to match the card's own idle transform —
+   * an animation outranks an inline style, so this is what paints while it
+   * runs, and the stack drops the class the moment a pointer lands.
+   */
+  .card-nudge {
+    animation: card-nudge 5s ease-in-out infinite;
+  }
+
+  @keyframes card-nudge {
+    0%,
+    6% {
+      transform: translateX(0) rotate(0deg);
+    }
+    12%,
+    20% {
+      transform: translateX(-9%) rotate(-2.5deg);
+    }
+    28%,
+    100% {
+      transform: translateX(0) rotate(0deg);
+    }
+  }
+
   /* Staggered entrance for the menu items. Restarts on every open, because
      the dialog goes from `display: none` back to rendered. */
   .nav-item-in {
@@ -230,6 +293,10 @@
 
   body {
     @apply bg-parchment text-ink font-sans antialiased;
+    /* `clip` rather than `hidden`: it bounds sideways excursions — a gallery
+       card thrown off the deck, a wide table — without turning the body into a
+       scroll container, which would break `position: sticky` inside it. */
+    overflow-x: clip;
   }
 
   /* `brand-ink` rather than `brand`: the ring has to stay visible against

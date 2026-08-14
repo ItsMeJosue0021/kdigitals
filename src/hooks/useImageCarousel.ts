@@ -2,8 +2,6 @@ import { useCallback, useState } from 'react'
 
 interface ImageCarousel {
   index: number
-  /** Jumps straight to one image, for thumbnail rows. */
-  select: (index: number) => void
   next: () => void
   previous: () => void
 }
@@ -29,5 +27,5 @@ export function useImageCarousel(count: number): ImageCarousel {
   const next = useCallback(() => step(1), [step])
   const previous = useCallback(() => step(-1), [step])
 
-  return { index, select: setIndex, next, previous }
+  return { index, next, previous }
 }

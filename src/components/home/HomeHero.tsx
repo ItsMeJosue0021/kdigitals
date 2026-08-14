@@ -1,8 +1,10 @@
 import type { ReactNode } from 'react'
+import { SwipeableCardStack } from '@/components/common/SwipeableCardStack'
 import { ProductImage } from '@/components/product/ProductImage'
 import { Button } from '@/components/ui/Button'
 import { DownloadIcon, PencilIcon, PrinterIcon } from '@/components/ui/icons'
 import { PRODUCTS } from '@/data/products'
+import { useImageCarousel } from '@/hooks/useImageCarousel'
 import { formatPrice } from '@/lib/format'
 
 interface HomeHeroProps {
@@ -16,8 +18,8 @@ const HIGHLIGHTS: readonly { icon: ReactNode; label: string }[] = [
   { icon: <PrinterIcon className="size-4" />, label: 'Print-ready files' },
 ]
 
-/** Three covers shown as a preview stack beside the headline. */
-const SHOWCASE = PRODUCTS.slice(0, 3)
+/** The two small covers tucked under the deck. */
+const SUPPORTING = PRODUCTS.slice(1, 3)
 
 /** Entrance order, in milliseconds. */
 const DELAY = {
@@ -30,7 +32,7 @@ const DELAY = {
 } as const
 
 export function HomeHero({ catalogueId }: HomeHeroProps) {
-  const [feature, ...supporting] = SHOWCASE
+  const { index, next } = useImageCarousel(PRODUCTS.length)
 
   return (
     <section className="border-line/60 relative overflow-hidden border-b">
@@ -96,46 +98,69 @@ export function HomeHero({ catalogueId }: HomeHeroProps) {
           </div>
         </div>
 
-        {/* Decorative: the same products appear as real cards below. */}
+        {/*
+          Decorative: every one of these products appears as a real, linked card
+          further down the page, so the deck stays out of the accessibility tree
+          and takes no focus — passing no `label` to the stack is what keeps a
+          focus stop from landing inside `aria-hidden` content.
+        */}
         <div
           aria-hidden="true"
-          className="animate-rise mx-auto w-full max-w-sm lg:max-w-md"
+          // Leads on small screens, where the deck is the first thing worth
+          // touching; back to its place beside the headline once the two
+          // columns sit side by side. Source order stays text-first, so this
+          // never moves ahead of the heading for a screen reader.
+          className="animate-rise order-first mx-auto w-full max-w-sm lg:order-0 lg:max-w-md"
           style={{ animationDelay: `${DELAY.showcase}ms` }}
         >
           <div className="grid grid-cols-2 gap-4">
-            <figure
-              className="border-line/60 animate-float bg-surface shadow-lift col-span-2 -rotate-2 overflow-hidden rounded-2xl border"
-              style={{ animationDelay: '-1s' }}
-            >
-              <div className="bg-parchment aspect-video overflow-hidden">
-                {/* Gold cover so the stack is not teal on teal on teal. */}
-                <ProductImage
-                  src={feature.images[0]}
-                  alt=""
-                  seed={feature.id}
-                  palette="gold"
-                  eager
-                />
-              </div>
-              <figcaption className="flex items-center justify-between gap-3 p-4">
-                <span className="text-ink line-clamp-1 text-sm font-semibold">
-                  {feature.title}
-                </span>
-                <span className="text-ink shrink-0 text-sm font-bold">
-                  {formatPrice(feature.price)}
-                </span>
-              </figcaption>
-            </figure>
+            <div className="col-span-2">
+              <SwipeableCardStack
+                items={PRODUCTS}
+                index={index}
+                onNext={next}
+                keyOf={(product) => product.id}
+                // Taller than the covers alone: the caption takes what it needs
+                // and the image stretches into the rest, so the frame holds its
+                // shape at every column width.
+                frame="aspect-16/11"
+                tilt={-2}
+                cardClassName="border-line/60 bg-surface shadow-lift flex flex-col rounded-2xl border"
+                renderCard={(product, isTop) => (
+                  <>
+                    <div className="bg-parchment min-h-0 flex-1 overflow-hidden">
+                      {/* Gold cover so the deck is not teal on teal on teal. */}
+                      <ProductImage
+                        src={product.images[0]}
+                        alt=""
+                        seed={product.id}
+                        palette="gold"
+                        eager={isTop}
+                        className="pointer-events-none"
+                      />
+                    </div>
+                    <div className="flex items-center justify-between gap-3 p-4">
+                      <span className="text-ink line-clamp-1 text-sm font-semibold">
+                        {product.title}
+                      </span>
+                      <span className="text-ink shrink-0 text-sm font-bold">
+                        {formatPrice(product.price)}
+                      </span>
+                    </div>
+                  </>
+                )}
+              />
+            </div>
 
-            {supporting.map((product, index) => (
+            {SUPPORTING.map((product, position) => (
               <figure
                 key={product.id}
                 className={`border-line/60 bg-parchment animate-float shadow-float relative aspect-4/3 overflow-hidden rounded-2xl border ${
-                  index === 0 ? 'rotate-3' : '-rotate-1'
+                  position === 0 ? 'rotate-3' : '-rotate-1'
                 }`}
                 // Negative delays start each card mid-cycle, so they drift
                 // out of phase instead of moving as one block.
-                style={{ animationDelay: index === 0 ? '-3s' : '-5s' }}
+                style={{ animationDelay: position === 0 ? '-3s' : '-5s' }}
               >
                 <ProductImage
                   src={product.images[0]}

@@ -15,10 +15,11 @@ interface CardImageViewerProps {
 /**
  * The cover image of a product card, plus the expanded view it opens into.
  *
- * Two siblings rather than one wrapper: the cover fills the card's 4:3 frame,
- * while the expanded view is absolutely positioned against the card itself, so
- * it covers the title and price as well. Both need the card's `group` and
- * `relative` context, so this renders as a fragment inside the card.
+ * Two siblings rather than one wrapper: the cover is laid in behind the whole
+ * card for the details to sit over, while the expanded view is absolutely
+ * positioned against the card as well, so it covers those details too. Both
+ * need the card's `group` and `relative` context, so this renders as a fragment
+ * inside the card.
  */
 export function CardImageViewer({ product, eager = false }: CardImageViewerProps) {
   const { images } = product
@@ -42,7 +43,7 @@ export function CardImageViewer({ product, eager = false }: CardImageViewerProps
 
   return (
     <>
-      <div className="bg-parchment aspect-4/3 relative overflow-hidden">
+      <div className="bg-parchment absolute inset-0 overflow-hidden">
         <ProductImage
           src={images[0]}
           alt=""

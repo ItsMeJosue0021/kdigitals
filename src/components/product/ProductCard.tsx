@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 import { formatPrice } from '@/lib/format'
 import { productPath } from '@/routes/paths'
 import type { Product } from '@/types/product'
-import { ProductImage } from './ProductImage'
+import { CardImageViewer } from './CardImageViewer'
 
 interface ProductCardProps {
   product: Product
@@ -13,15 +13,9 @@ interface ProductCardProps {
 export function ProductCard({ product, eager = false }: ProductCardProps) {
   return (
     <article className="group border-line/70 hover:border-brand/40 bg-surface hover:shadow-card relative flex w-full flex-col overflow-hidden rounded-xl border transition-all duration-200 hover:-translate-y-1 focus-within:-translate-y-1">
-      <div className="bg-parchment aspect-4/3 overflow-hidden">
-        <ProductImage
-          src={product.images[0]}
-          alt=""
-          seed={product.id}
-          eager={eager}
-          className="transition-transform duration-300 group-hover:scale-[1.03]"
-        />
-      </div>
+      {/* The cover fills the frame edge to edge; the expand control inside
+          opens the uncropped photos over the whole card. */}
+      <CardImageViewer product={product} eager={eager} />
 
       <div className="flex flex-1 flex-col gap-2 p-5">
         <p className="text-brand-ink text-xs font-medium tracking-wide uppercase">

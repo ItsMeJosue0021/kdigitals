@@ -160,6 +160,18 @@ export function ChevronRightIcon(props: IconProps) {
   )
 }
 
+/** Diagonal arrows-out, for "view this image larger". */
+export function ExpandIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M14 4h6v6" />
+      <path d="m20 4-7 7" />
+      <path d="M10 20H4v-6" />
+      <path d="m4 20 7-7" />
+    </Icon>
+  )
+}
+
 export function ArrowLeftIcon(props: IconProps) {
   return (
     <Icon {...props}>

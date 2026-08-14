@@ -1,4 +1,5 @@
 import type { Product } from '@/types/product'
+import { imageGroup } from './productImages'
 
 /**
  * Product catalogue.
@@ -6,16 +7,17 @@ import type { Product } from '@/types/product'
  * Static for now — swap this module for an API call and the pages keep
  * working, since everything downstream depends on the `Product` type only.
  *
- * Images: every entry ships with an empty `images` array, so a generated
- * brand placeholder is rendered. Add real files under `src/assets/products/`,
- * import them, and list them here (first image is the cover).
+ * Images: entries with an empty `images` array fall back to a generated brand
+ * placeholder. To ship real photos, drop them in `src/assets/img/<set>/<group>/`
+ * — naming the cover `front-*` — and call `imageGroup('<set>/<group>')` here.
  */
 export const PRODUCTS: readonly Product[] = [
   {
     id: 'dll-templates',
     slug: 'editable-daily-lesson-log-templates',
     title: 'Editable Daily Lesson Log (DLL) Templates',
-    images: [],
+    images: imageGroup('pmes/1'),
+    imageOrientation: 'portrait',
     description:
       'A complete set of Daily Lesson Log templates you can edit in Microsoft Word and Google Docs. Layouts follow the familiar weekly format, with sections for objectives, content standards, learning resources, procedures, remarks, and reflection. Designed to be printer-friendly in both A4 and Letter, so you can file hard copies without reformatting.',
     inclusions: [
@@ -32,7 +34,8 @@ export const PRODUCTS: readonly Product[] = [
     id: 'class-record-tracker',
     slug: 'automated-class-record-and-grade-tracker',
     title: 'Automated Class Record & Grade Tracker',
-    images: [],
+    images: imageGroup('pmes/2'),
+    imageOrientation: 'portrait',
     description:
       'A spreadsheet that computes written work, performance tasks, and quarterly assessment weights for you. Enter raw scores and the initial and transmuted grades update automatically, with a summary sheet you can use during card distribution. Works in Google Sheets and Microsoft Excel.',
     inclusions: [

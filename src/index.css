@@ -177,6 +177,27 @@
     }
   }
 
+  /**
+   * Image cross-fade, used by the product gallery, the expanded card, and the
+   * lightbox. React re-keys the element whenever the photo changes, which
+   * restarts the animation, so paging eases the new image in instead of
+   * snapping to it.
+   */
+  .fade-scale-in {
+    animation: fade-scale-in 420ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  }
+
+  @keyframes fade-scale-in {
+    from {
+      opacity: 0;
+      scale: 1.04;
+    }
+    to {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+
   /* Staggered entrance for the menu items. Restarts on every open, because
      the dialog goes from `display: none` back to rendered. */
   .nav-item-in {

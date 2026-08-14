@@ -20,6 +20,14 @@ export interface Product {
    * at `public/`. When empty, a generated brand placeholder is shown instead.
    */
   images: string[]
+  /**
+   * Shape of the files in `images`. Landscape is the default, and what the
+   * generated placeholder uses; portrait gives the detail gallery a tall
+   * frame, so full-page scans fill it instead of being cropped to a strip.
+   * Card covers keep the shared 4:3 frame either way, to hold the grid
+   * aligned — the expanded view is where the whole photo is seen.
+   */
+  imageOrientation?: 'landscape' | 'portrait'
   description: string
   /** What the buyer receives, one line per item. */
   inclusions: string[]
